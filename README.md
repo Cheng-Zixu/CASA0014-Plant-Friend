@@ -6,11 +6,11 @@ Plant Friend is a plant monitor project made by Zixu Cheng (Cade) in CASA0014. I
 
 The scoring of plants can better help you monitor the status of plants!
 
-![]()
+![./imgs/Plant-Friend.png]()
 
 ## 0. Overview
 
-Plant Friend is made of various IoT sensors and components in CE IoT kits including Arduino board, Temperature and humidity sensor and Triode. It monitors the plant, sends data to the MQTT server, and stores data in the database in Raspberry Pi.
+Plant Friend is made of various IoT sensors and components in CE IoT kits including Arduino board, Temperature and humidity sensor and Triode. It monitors the plant, sends data to the MQTT server [3], and stores data in the database in Raspberry Pi.
 
 ### Data
 
@@ -49,9 +49,9 @@ The "Plant_avg_score_hour" uses the latest data in the last hour and calculates 
 
 To build a Plant Friend, we need the sensors and components as follows:
 
-* 1 Arduino Feather Huzzah ESP8266 WIFI;
-* 1 Temperature and humidity sensor DHT22;
-* 1 Triode BC547;
+* 1 Arduino Feather Huzzah ESP8266 WIFI [5];
+* 1 Temperature and humidity sensor DHT22 [6];
+* 1 Triode BC547 [7];
 * 2 100Ω/1 200Ω/2 10kΩ Resistors;
 * 2 nails;
 
@@ -63,7 +63,7 @@ To make Plant Friend work well, we need a MQTT server to broadcast the data of t
 
 1. login your server via SSH or other ways.
 
-   * If you don't have a server, you can setup a Raspberry Pi as your server .
+   * If you don't have a server, you can setup a Raspberry Pi [8] as your server .
 
      some useful tutorial for setting up a Raspberry Pi:
 
@@ -74,7 +74,7 @@ To make Plant Friend work well, we need a MQTT server to broadcast the data of t
 
    * If you already have a server, just login your server.
 
-2. install InfluxDB on the server.
+2. install InfluxDB [9] on the server.
 
    Start your Terminal and input these commands to install and configure InfluxDB:
 
@@ -140,7 +140,7 @@ Import the secret head file in your main Arduino file like:
 
 ### 2.1 Circuit
 
-The circuit of Plant Friend is like the following configuration:
+The circuit of Plant Friend is like the following configuration[1]:
 
 <img src=".\imgs\circuit.png" style="zoom: 25%;" />
 
@@ -154,7 +154,7 @@ Plant Friend uses a BC547 triode and two nails to quantify soil moisture through
 
 ### 2.2 Programme
 
-#### 2.2.1 Declare variables
+#### 2.2.1 Declare variables [2]
 
 ```
 // Sensors - DHT22 and Nails
@@ -299,13 +299,13 @@ Show data on HTTP web page.
 
 The data provided by Plant Friend can be subscribed on MQTT server. Everyone could subscribe the information on `mqtt.cetools.org` with port number `1883`. The subscription address is `student/CASA0014/plant/Plant-Friend-Cade/#`.
 
-![]()
+![./imgs/MQTT.png]()
 
-### 2.4 Data visualisation on Grafana
+### 2.4 Data visualisation on Grafana [4]
 
 You can visit `http://stud-pi-ucfnzc1:3000/` to check your plant data information through some visulisation like line graph.
 
-![]()
+![./imgs/grafana.png]()
 
 ## 3. Further work
 
@@ -331,4 +331,8 @@ You can visit `http://stud-pi-ucfnzc1:3000/` to check your plant data informatio
 [6] DHT22 Description. https://www.adafruit.com/product/385
 
 [7] BC547 Transistor Pinout Configuration, https://components101.com/transistors/bc547-transistor-pinout-datasheet
+
+[8] Raspberry Pi Documentation, https://www.raspberrypi.com/documentation/computers/getting-started.html
+
+[9] Get started with the InfluxData Platform, https://docs.influxdata.com/platform/getting-started/
 
