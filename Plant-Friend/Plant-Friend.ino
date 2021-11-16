@@ -21,15 +21,19 @@
 // Sensors - DHT22 and Nails
 uint8_t DHTPin = 12;        // on Pin 2 of the Huzzah
 uint8_t soilPin = 0;      // ADC or A0 pin on Huzzah
-float Temperature;
-float Humidity;
+float Temperature;        // Declare variable Temperature
+float Humidity;           // Declare variable Humidity
 int Moisture = 1; // initial value just in case web page is loaded before readMoisture called
-int sensorVCC = 13;
-int blueLED = 2;
-int needSunlight = 1;
-int needWatering = 1;
-int score = 100;
-ArduinoQueue<int> q_score(60);
+int sensorVCC = 13;       // set sensorVCC on pin 13
+int blueLED = 2;          // set LED on pin 2
+
+// new variable for Plant Friend
+int needSunlight = 1;     // initial value of needSunlight
+int needWatering = 1;     // initial value of needWatering
+int score = 100;          // initia value of score of plant status
+float avg_score = 0;        // initia value of average score
+ArduinoQueue<int> q_score(60);  //declare a queue to preserve the lateset data like a slidewindow
+ArduinoQueue<int> q_score_temp(60);   //declare a temporary queue to help calculate the average score
 
 DHT dht(DHTPin, DHTTYPE);   // Initialize DHT sensor.
 
@@ -51,6 +55,8 @@ DHT dht(DHTPin, DHTTYPE);   // Initialize DHT sensor.
 //const char* mqttuser = SECRET_MQTTUSER;
 //const char* mqttpass = SECRET_MQTTPASS;
 
+// initialise and web and mqtt server configuration 
+
 ESP8266WebServer server(80);
 const char* mqtt_server = "mqtt.cetools.org";
 WiFiClient espClient;
@@ -61,7 +67,6 @@ int value = 0;
 
 // Date and time
 Timezone GB;
-
 
 
 void setup() {
@@ -185,23 +190,19 @@ void sendMQTT() {
   Serial.print("Publish message for m: ");
   Serial.println(msg);
   client.publish("student/CASA0014/plant/Plant-Friend-Cade/moisture", msg);
-  
-  if (Temperature < 30.0) {
-    needSunlight = 1;
-  } else {
-    needSunlight = 0;
-  }
+
+  // To indicate whether needing more sunlight
+  needSunlight = (Temperature < 25) ? 1 : -1;
+
   snprintf (msg, 50, "%.0i", needSunlight);
   Serial.print("Publish message for needSunlight: ");
   Serial.println(msg);
   Serial.print("The plant need more Sunlight!");
   client.publish("student/CASA0014/plant/Plant-Friend-Cade/needSunlight", msg);
 
-  if (Moisture < 100) {
-    needWatering = 1;
-  } else {
-    needWatering = 0;
-  }
+  // To indicate whether needing watering
+  needWatering = (Moisture < 100) ? 1 : -1;
+  
   snprintf (msg, 50, "%.0i", needWatering);
   Serial.print("Publish message for needWatering: ");
   Serial.println(msg);
@@ -221,23 +222,27 @@ void sendMQTT() {
   Serial.print("Publish message for plant score: ");
   Serial.println(msg);
   client.publish("student/CASA0014/plant/Plant-Friend-Cade/plant_score", msg);
-  
-  if (!q_score.isEmpty()) {
+
+  // preserve the latest data
+  if (!q_score.isFull()) {
     q_score.enqueue(score);
   } else {
     q_score.dequeue();
     q_score.enqueue(score);
   }
-  ArduinoQueue<int> q_score_temp(60);
+  
+  // update the queue status 
   q_score_temp = q_score;
   int temp = 0;
-  
-  for (int i = 0; i < q_score.itemCount(); i++) {
+  int len = q_score_temp.itemCount();
+
+  // calculate the average score via the help of q_score_temp
+  while (!q_score_temp.isEmpty()){
     temp += q_score_temp.getHead();
     q_score_temp.dequeue();
   }
   
-  float avgscore = temp / q_score.itemCount();
+  avg_score = temp / len;
   snprintf (msg, 50, "%.2f", avgscore);
   Serial.print("Publish message for avg score in an hour: ");
   Serial.println(msg);
