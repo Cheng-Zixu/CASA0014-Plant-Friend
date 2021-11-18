@@ -6,7 +6,7 @@ Plant Friend is a plant monitor project made by Zixu Cheng (Cade) in CASA0014. I
 
 The scoring of plants can better help you monitor the status of plants!
 
-![./imgs/Plant-Friend.png]()
+![./imgs/Plant-Friend.jpg]()
 
 ## 0. Overview
 
