@@ -197,7 +197,6 @@ void sendMQTT() {
   snprintf (msg, 50, "%.0i", needSunlight);
   Serial.print("Publish message for needSunlight: ");
   Serial.println(msg);
-  Serial.print("The plant need more Sunlight!");
   client.publish("student/CASA0014/plant/Plant-Friend-Cade/needSunlight", msg);
 
   // To indicate whether needing watering
@@ -206,7 +205,6 @@ void sendMQTT() {
   snprintf (msg, 50, "%.0i", needWatering);
   Serial.print("Publish message for needWatering: ");
   Serial.println(msg);
-  Serial.print("The plant need to be watering!");
   client.publish("student/CASA0014/plant/Plant-Friend-Cade/needWatering", msg);
 
   if (needSunlight == 1 and needWatering == 1){
@@ -243,7 +241,7 @@ void sendMQTT() {
   }
   
   avg_score = temp / len;
-  snprintf (msg, 50, "%.2f", avgscore);
+  snprintf (msg, 50, "%.2f", avg_score);
   Serial.print("Publish message for avg score in an hour: ");
   Serial.println(msg);
   client.publish("student/CASA0014/plant/Plant-Friend-Cade/plant_avg_score_hour", msg); 
