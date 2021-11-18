@@ -305,7 +305,7 @@ The data provided by Plant Friend can be subscribed on MQTT server. Everyone cou
 
 You can visit `http://stud-pi-ucfnzc1:3000/` to check your plant data information through some visulisation like line graph.
 
-![./imgs/grafana.png]()
+![./imgs/Grafana.png]()
 
 ## 3. Further work
 
