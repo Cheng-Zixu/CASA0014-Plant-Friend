@@ -6,7 +6,7 @@ Plant Friend is a plant monitor project made by Zixu Cheng (Cade) in CASA0014. I
 
 The scoring of plants can better help you monitor the status of plants!
 
-![./imgs/Plant-Friend.jpg]()
+![Plant-Friend](./imgs/Plant-Friend.jpg)
 
 ## 0. Overview
 
@@ -299,13 +299,13 @@ Show data on HTTP web page.
 
 The data provided by Plant Friend can be subscribed on MQTT server. Everyone could subscribe the information on `mqtt.cetools.org` with port number `1883`. The subscription address is `student/CASA0014/plant/Plant-Friend-Cade/#`.
 
-![./imgs/MQTT.png]()
+![MQTT](./imgs/MQTT.png)
 
 ### 2.4 Data visualisation on Grafana [4]
 
 You can visit `http://stud-pi-ucfnzc1:3000/` to check your plant data information through some visulisation like line graph.
 
-![./imgs/Grafana.png]()
+![Grafana](./imgs/Grafana.png)
 
 ## 3. Further work
 
